@@ -18,7 +18,11 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     
     public void preWindowOpen() {
         IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
+<<<<<<< HEAD
         configurer.setInitialSize(new Point(800, 600)); 
+=======
+        configurer.setInitialSize(new Point(400, 400));//또바꿈
+>>>>>>> FileBrowser/lsh
         configurer.setShowCoolBar(false);
         configurer.setShowStatusLine(false);
         configurer.setTitle("File Browser"); //$NON-NLS-1$
