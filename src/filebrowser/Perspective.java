@@ -6,10 +6,11 @@ import org.eclipse.ui.IPerspectiveFactory;
 public class Perspective implements IPerspectiveFactory {
 
 	public void createInitialLayout(IPageLayout layout) {
-		layout.setEditorAreaVisible(false);
-
+		//layout.setEditorAreaVisible(true);
+		layout.setFixed(true);
 		layout.addStandaloneView(BrowserView.ID, false, IPageLayout.LEFT,
-				0.9f, layout.getEditorArea());
-		layout.addStandaloneView(PathView.ID, false, IPageLayout.TOP, 0.1f, BrowserView.ID);
+				0.35f, IPageLayout.ID_EDITOR_AREA);
+		layout.addStandaloneView(PathView.ID, false, IPageLayout.TOP, 0.05f, BrowserView.ID);
+		
 	}
 }
