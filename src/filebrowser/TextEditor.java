@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -34,41 +36,18 @@ public class TextEditor extends EditorPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		parent.setLayout(new FormLayout());
-		
-		
-		Label label = new Label(parent, SWT.NONE);
-		FormData fd_label = new FormData();
-		fd_label.bottom = new FormAttachment(0, 26);
-		fd_label.top = new FormAttachment(0, 5);
-		fd_label.left = new FormAttachment(0, 5);
-		label.setLayoutData(fd_label);
-		label.setText("파일명");
-		Text text = new Text(parent, SWT.BORDER | SWT.MULTI);
-		FormData fd_text = new FormData();
-		fd_text.right = new FormAttachment(100, -5);
-		fd_text.top = new FormAttachment(0, 5);
-		fd_text.left = new FormAttachment(0, 46);
-		text.setLayoutData(fd_text);
-		text.setText("파일명");
-		
-		Label label_1 = new Label (parent, SWT.NONE);
-		FormData fd_label_1 = new FormData();
-		fd_label_1.bottom = new FormAttachment(0, 52);
-		fd_label_1.right = new FormAttachment(0, 41);
-		fd_label_1.top = new FormAttachment(0, 31);
-		fd_label_1.left = new FormAttachment(0, 5);
-		label_1.setLayoutData(fd_label_1);
-		label_1.setText("내용");
 		Text text2 = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
 		FormData fd_text2 = new FormData();
+		fd_text2.left = new FormAttachment(0);
+		fd_text2.right = new FormAttachment(100);
 		fd_text2.bottom = new FormAttachment(100);
-		fd_text2.right = new FormAttachment(text, 0, SWT.RIGHT);
-		fd_text2.top = new FormAttachment(0, 31);
-		fd_text2.left = new FormAttachment(0, 46);
+		fd_text2.top = new FormAttachment(0);
 		text2.setLayoutData(fd_text2);
 		text2.setText("내용");
 		
 		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener((part, selection)->{
+			System.out.printf("%s, %s\n", part, selection);
+			
 			text2.setText("");
 			try {
 				String loc = ((IStructuredSelection) selection).getFirstElement().toString();
@@ -76,7 +55,7 @@ public class TextEditor extends EditorPart {
 				BufferedReader br = new BufferedReader(new FileReader(loc));
 				
 				if(file.isFile()){
-					text.setText(file.getName());
+					setPartName(file.getName());
 					
 					if(file.canRead()){
 						String line = "";
@@ -89,9 +68,8 @@ public class TextEditor extends EditorPart {
 					}
 				}
 				
-				System.out.printf("%s, %s\n", part, selection);
-			} catch (Exception e) {
 				
+			} catch (Exception e) {
 			}
 		});
 	}
@@ -122,7 +100,6 @@ public class TextEditor extends EditorPart {
 		this.input = (TextEditorInput) input;
 		setSite(site);
 		setInput(input);
-		setPartName("파일명");
 	}
 
 	@Override

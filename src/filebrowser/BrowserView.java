@@ -2,6 +2,9 @@ package filebrowser;
 
 import java.io.File;
 
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -25,18 +28,28 @@ public class BrowserView extends ViewPart {
 		tree.setLabelProvider(new FileTreeLabelProvider()); // 트리의 '모양'에 대한 정보를
 															// 제공
 		tree.setInput(File.listRoots()); // 파일 트리의 루트
-		getSite().setSelectionProvider(tree);
-		
+
+		getViewSite().setSelectionProvider(tree);
+
 		try {
-			getViewSite().getPage().openEditor(new TextEditorInput(0), "FileBrowser.textEditor");
+			getViewSite().getPage().openEditor(new TextEditorInput(),
+					"FileBrowser.textEditor");
+
 		} catch (PartInitException e1) {
 			e1.printStackTrace();
 		}
-		
+
 	}
-	
+
 	@Override
 	public void setFocus() {
 		tree.getControl().setFocus();
 	}
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		super.dispose();
+	}
+
 }

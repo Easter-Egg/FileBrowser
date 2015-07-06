@@ -6,15 +6,6 @@ import org.eclipse.ui.IPersistableElement;
 
 public class TextEditorInput implements IEditorInput{
 
-	private final long id;
-	
-	public TextEditorInput(long id) {
-		this.id = id;
-	}
-
-	public long getId() {
-		return id;
-	}
 
 	@Override
 	public Object getAdapter(Class adapter) {
@@ -35,12 +26,6 @@ public class TextEditorInput implements IEditorInput{
 	}
 
 	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return String.valueOf(id);
-	}
-
-	@Override
 	public IPersistableElement getPersistable() {
 		// TODO Auto-generated method stub
 		return null;
@@ -50,6 +35,12 @@ public class TextEditorInput implements IEditorInput{
 	public String getToolTipText() {
 		// TODO Auto-generated method stub
 		return "This is a Text Editor";
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
