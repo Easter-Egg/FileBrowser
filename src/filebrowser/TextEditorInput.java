@@ -7,6 +7,7 @@ import org.eclipse.ui.IPersistableElement;
 public class TextEditorInput implements IEditorInput{
 
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class adapter) {
 		// TODO Auto-generated method stub
@@ -34,7 +35,7 @@ public class TextEditorInput implements IEditorInput{
 	@Override
 	public String getToolTipText() {
 		// TODO Auto-generated method stub
-		return "This is a Text Editor";
+		return "Editor";
 	}
 
 	@Override

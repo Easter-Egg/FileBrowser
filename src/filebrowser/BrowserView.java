@@ -9,10 +9,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.internal.win32.OS;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 
+@SuppressWarnings("restriction")
 public class BrowserView extends ViewPart {
 	public BrowserView() {
 	}
@@ -36,30 +35,28 @@ public class BrowserView extends ViewPart {
 		treeViewer.setInput(File.listRoots()); 							// 파일 트리의 루트.
 
 		// getViewSite().setSelectionProvider(tree);
+		
 
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				// TODO Auto-generated method stub
-				String path = event.getSelection().toString();  		// "[경로]"
+				String path = event.getSelection().toString();
+				SelectedFileInfo singleton = SelectedFileInfo.getInstance();
+				singleton.setPath((path.substring(1, path.length() - 1)));
+			
+				// SelectedFileInfo.getInstance().setLocation();
+				
+				/*
+				String path = event.getSelection().toString();	 		// "[경로]"
 				String loc = path.substring(1, path.length() - 1);		// "경로" 중괄호 제거
 
 				((PathView) getViewSite().getPage().findView(			// PathView의 텍스트 박스에 경로 표시
 						"FileBrowser.pathView")).setLocation(loc);
 
-				try {
-					File file = new File(loc);
-					if (!file.isDirectory()) {							// 경로의 파일이 디렉토리가 아닐 경우에만
-						IEditorInput input = new TextEditorInput();		// 에디터로 오픈
-						getViewSite().getPage().openEditor(input,
-								"FileBrowser.textEditor");
-					}
-
-				} catch (PartInitException e1) {
-					e1.printStackTrace();
-				}
-			}
+				
+			*/}
 		});
 	}
 
@@ -77,5 +74,6 @@ public class BrowserView extends ViewPart {
 		// TODO Auto-generated method stub
 		super.dispose();
 	}
-
 }
+
+

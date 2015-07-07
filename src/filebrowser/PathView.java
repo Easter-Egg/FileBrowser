@@ -8,6 +8,7 @@ import org.eclipse.ui.part.ViewPart;
 
 public class PathView extends ViewPart {
 	public PathView() {
+		
 	}
 
 	public static final String ID = "FileBrowser.pathView";
@@ -17,23 +18,13 @@ public class PathView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		textBox = new Text(parent, SWT.MULTI | SWT.BORDER | SWT.WRAP);
 		textBox.setLayoutData(new GridData(GridData.FILL_BOTH));
-		textBox.setText("°æ·Î");
-/*
-		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener((part, selection) -> {
-			try {
-					textBox.setText(((IStructuredSelection) selection).getFirstElement().toString());
-				} catch (Exception e) {
-				}
-		});*/
 	}
 	
-	public void setLocation(String str){
-		textBox.setText(str);
+	public Text getTb(){
+		return textBox;
 	}
 	
 	@Override
 	public void setFocus() {
-
 	}
-
 }
