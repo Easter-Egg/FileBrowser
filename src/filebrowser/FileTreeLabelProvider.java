@@ -40,7 +40,7 @@ public class FileTreeLabelProvider extends StyledCellLabelProvider {
 		
 		else
 			text.append(getFileName(file));
-		
+
 		cell.setText(text.toString());
 		cell.setStyleRanges(text.getStyleRanges());
 	}
