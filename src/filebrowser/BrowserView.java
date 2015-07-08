@@ -2,8 +2,6 @@ package filebrowser;
 
 import java.io.File;
 
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.internal.win32.OS;
@@ -34,34 +32,7 @@ public class BrowserView extends ViewPart {
 		treeViewer.setLabelProvider(new FileTreeLabelProvider()); 		// 트리의 '모양'에 대한 정보를 제공
 		treeViewer.setInput(File.listRoots()); 							// 파일 트리의 루트.
 
-		// getViewSite().setSelectionProvider(tree);
-		
-
-		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				// TODO Auto-generated method stub
-				String path = event.getSelection().toString();
-				SelectedFileInfo singleton = SelectedFileInfo.getInstance();
-				singleton.setPath((path.substring(1, path.length() - 1)));
-			
-				// SelectedFileInfo.getInstance().setLocation();
-				
-				/*
-				String path = event.getSelection().toString();	 		// "[경로]"
-				String loc = path.substring(1, path.length() - 1);		// "경로" 중괄호 제거
-
-				((PathView) getViewSite().getPage().findView(			// PathView의 텍스트 박스에 경로 표시
-						"FileBrowser.pathView")).setLocation(loc);
-
-				
-			*/}
-		});
-	}
-
-	public TreeViewer getTree() {
-		return treeViewer;
+		getSite().setSelectionProvider(treeViewer);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -23,9 +24,9 @@ public class TextEditor extends EditorPart {
 	public TextEditor() {
 	}
 
-	@SuppressWarnings("unused")
 	private TextEditorInput input;
 	private Text text2;
+	private String path;
 
 	/**
 	 * Create contents of the editor part.
@@ -34,10 +35,12 @@ public class TextEditor extends EditorPart {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
+		ISelection sel = getSite().getPage().getSelection("FileBrowser.browserView");
+		path = sel.toString();
+		String loc = path.substring(1, path.length()-1);
 		
 		parent.setLayout(new FormLayout());
-		text2 = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
-				| SWT.H_SCROLL);
+		text2 = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
 		FormData fd_text2 = new FormData();
 		fd_text2.left = new FormAttachment(0);
 		fd_text2.right = new FormAttachment(100);
@@ -46,55 +49,26 @@ public class TextEditor extends EditorPart {
 		text2.setLayoutData(fd_text2);
 		text2.setText("");
 
-		/*ISelection selection = ((BrowserView) getSite().getWorkbenchWindow()
-				.getActivePage().findView("FileBrowser.browserView")).getTree()
-				.getSelection();													// 트리에서 선택된 아이템 (셀렉션)에 접근
-		
-		String path = selection.toString(); 										// "[경로]"
-		String loc = path.substring(1, path.length()-1);	*/						// "경로"
-		
-
-		String loc = SelectedFileInfo.getInstance().getPath();
 		File file = new File(loc);
-		
+		setPartName(file.getName());
+
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(loc));			// 파일을 읽어와서 출력
-			{
-				setPartName(file.getName());
-
-					String line = "";
-					String document = "";
-					while ((line = br.readLine()) != null) {
-						document += (line + "\n");
-					}
-					text2.setText(document);
-					br.close();
+			BufferedReader br = new BufferedReader(new FileReader(loc));
+			String line = "";
+			String document = "";
+			while ((line = br.readLine()) != null) {
+				document += (line + "\n");
 			}
-
+			text2.setText(document);
+			br.close();
 		} catch (Exception e) {
 		}
-		/*
-		 * getSite().getWorkbenchWindow().getSelectionService().addSelectionListener
-		 * ((part, selection)->{ System.out.printf("%s, %s\n", part, selection);
-		 * 
-		 * try { String loc = ((IStructuredSelection)
-		 * selection).getFirstElement().toString(); File file = new File(loc);
-		 * BufferedReader br = new BufferedReader(new FileReader(loc));
-		 * 
-		 * if(file.isFile()){ setPartName(file.getName());
-		 * 
-		 * if(file.canRead()){ String line = ""; String document = "";
-		 * while((line = br.readLine()) != null){ document += (line + "\n"); }
-		 * text2.setText(document); br.close(); } }
-		 * 
-		 * 
-		 * } catch (Exception e) { } });
-		 */
 	}
-
+	
 	@Override
 	public void setFocus() {
 		// Set the focus
+		text2.forceFocus();
 	}
 
 	@Override
@@ -129,5 +103,4 @@ public class TextEditor extends EditorPart {
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
-
 }
