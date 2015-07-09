@@ -19,7 +19,7 @@ public class PathView extends ViewPart {
 
 	private ISelectionListener listener = new ISelectionListener() {
 		public void selectionChanged(IWorkbenchPart part, ISelection sel) {
-			if (!(sel instanceof IStructuredSelection))
+			if ((!(sel instanceof IStructuredSelection)) && (part != PathView.this))
 				return;
 			
 			IStructuredSelection ss = (IStructuredSelection) sel;
@@ -33,6 +33,7 @@ public class PathView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		textBox = new Text(parent, SWT.MULTI | SWT.BORDER | SWT.WRAP);
 		textBox.setLayoutData(new GridData(GridData.FILL_BOTH));
+
 		getSite().getPage().addSelectionListener(listener);
 	}
 
@@ -40,7 +41,8 @@ public class PathView extends ViewPart {
 	public void setFocus() {
 
 	}
-
+	
+	@Override
 	public void dispose() {
 		getSite().getPage().removeSelectionListener(listener);
 	}

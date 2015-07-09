@@ -40,14 +40,15 @@
             name="ImageView"
             restorable="true">
       </view>
+      <view
+            class="filebrowser.LogView"
+            id="FileBrowser.logView"
+            name="LogView"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
-      <editor
-            class="filebrowser.TextEditor"
-            id="FileBrowser.textEditor"
-            name="Editor">
-      </editor>
    </extension>
 
 </plugin>
