@@ -1,8 +1,6 @@
 package filebrowser;
 
 
-import java.io.File;
-
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -28,11 +26,14 @@ public class ImageView extends ViewPart{
 	
 	private ISelectionListener listener = new ISelectionListener() {
 		public void selectionChanged(IWorkbenchPart part, ISelection sel) {
-			if ((!(sel instanceof IStructuredSelection))  && (part != ImageView.this))
+			if (!(sel instanceof IStructuredSelection))
 				return;
 			
 			IStructuredSelection ss = (IStructuredSelection) sel;
-			String path = ss.getFirstElement().toString();
+			Object firstElement = ss.getFirstElement();
+			if(firstElement == null)
+				return;
+			String path = firstElement.toString();
 
 			if(path.endsWith(".jpg") || path.endsWith(".png"))
 				ImagePath = path;
@@ -45,19 +46,17 @@ public class ImageView extends ViewPart{
 	public void createPartControl(Composite parent) {
 		getSite().getPage().addSelectionListener(listener);
 		
-		canvas = new Canvas(parent, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.H_SCROLL);
+		canvas = new Canvas(parent, SWT.BORDER | SWT.FULL_SELECTION /*NO_REDRAW_RESIZE*/ | SWT.V_SCROLL | SWT.H_SCROLL);
 		
-		canvas.addPaintListener(new PaintListener() { 
-	        public void paintControl(PaintEvent e) { 
-	            File file = new File(ImagePath);
-	            setPartName(file.getName());
-	            Image image = new Image(parent.getDisplay(), ImagePath);
-	            Rectangle clientArea = canvas.getClientArea();
-	            e.gc.drawImage(image, clientArea.width/2-image.getBounds().width/2, clientArea.height/2-image.getBounds().height/2);
-	            }
-	    });
+//		canvas.addPaintListener(new PaintListener() { 
+//	        public void paintControl(PaintEvent e) { 
+//	            Image image = new Image(parent.getDisplay(), ImagePath);
+//	            Rectangle clientArea = canvas.getClientArea();
+//	            e.gc.drawImage(image, clientArea.width/2-image.getBounds().width/2, clientArea.height/2-image.getBounds().height/2);
+//	            }
+//	    });
 		
-		
+		setPartName("ImageViewer");
 		
 	}
 

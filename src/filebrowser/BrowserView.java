@@ -6,15 +6,16 @@ import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.internal.win32.OS;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.FileStoreEditorInput;
@@ -28,94 +29,69 @@ public class BrowserView extends ViewPart {
 	private TreeViewer treeViewer;
 	private Tree tree;
 	public static final String ID = "FileBrowser.browserView";
-	
-	private ISelectionChangedListener l = new ISelectionChangedListener(){
 
-		@Override
-		public void selectionChanged(SelectionChangedEvent event) {
-			String path = event.getSelection().toString();
-			String loc = path.substring(1, path.length()-1);
-			File file = new File(loc);
-			//System.out.println(loc);
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-
-			if (file.exists() && file.getName().endsWith(".txt")) {
-				IPath ipath = new Path(file.getAbsolutePath());
-				IFileStore fs = EFS.getLocalFileSystem().getStore(ipath);
-				FileStoreEditorInput fileStoreEditorInput = new FileStoreEditorInput(fs);
-				
-				try {
-					page.openEditor(fileStoreEditorInput, "org.eclipse.ui.DefaultTextEditor", false);
-				} catch (PartInitException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			else if (file.exists() && (file.getName().endsWith(".jpg") || file.getName().endsWith(".png"))){
-				try {
-					page.showView("FileBrowser.imageView", null, IWorkbenchPage.VIEW_CREATE);
-				} catch (PartInitException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-		}
-		
-	};
-/*
 	private ISelectionListener listener = new ISelectionListener() {
 		public void selectionChanged(IWorkbenchPart part, ISelection sel) {
-			if ((!(sel instanceof IStructuredSelection)) && (part != BrowserView.this))
+			if (!(sel instanceof IStructuredSelection))
 				return;
 
 			IStructuredSelection ss = (IStructuredSelection) sel;
 
-			String path = ss.getFirstElement().toString();
-			System.out.println(path);
+			Object firstElement = ss.getFirstElement();
+			if(firstElement == null)
+				return;
+			String path = firstElement.toString();
+//			System.out.println(path);
 			File file = new File(path);
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 
 			if (file.exists() && file.getName().endsWith(".txt")) {
 				IPath ipath = new Path(file.getAbsolutePath());
 				IFileStore fs = EFS.getLocalFileSystem().getStore(ipath);
 				FileStoreEditorInput fileStoreEditorInput = new FileStoreEditorInput(fs);
 				
+				IWorkbenchPage page = getSite().getPage();
+				
 				try {
-					page.openEditor(fileStoreEditorInput, "org.eclipse.ui.DefaultTextEditor", false);
+					page.openEditor(fileStoreEditorInput, MyTextEditor.ID, false);
+					//page.openEditor(fileStoreEditorInput, "org.eclipse.ui.DefaultTextEditor", false);
 				} catch (PartInitException e) {
 					e.printStackTrace();
 				}
 			}
 			
-			else if (file.exists() && (file.getName().endsWith(".jpg") || file.getName().endsWith(".png"))){
-				try {
-					page.showView("FileBrowser.imageView", null, IWorkbenchPage.VIEW_CREATE);
-				} catch (PartInitException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			ss = null;
+
+			/*
+			 * File file = new File(path); if (!file.isDirectory()) { if
+			 * (file.getName().endsWith(".txt")) { try {
+			 * PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+			 * .getActivePage() .openEditor(new TextEditorInput(),
+			 * "FileBrowser.textEditor", false); } catch (PartInitException e) {
+			 * // TODO Auto-generated catch block e.printStackTrace(); } } } }
+			 */
 		}
 	};
-*/
-	/***** Æ®¸® ±¸Á¶ Ãâ·Â ¸Þ¼Òµå *****/
+
+	/***** Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ *****/
 	@Override
 	public void createPartControl(Composite parent) {
-		// tree viewer »ý¼º
+		// tree viewer ï¿½ï¿½ï¿½ï¿½
 		tree = new Tree(parent, SWT.V_SCROLL | SWT.H_SCROLL);
 
-		// À©µµ¿ìÀÇ ½ºÅ¸ÀÏ ¼Ó¼º °ªÀ» ¹Þ¾Æ¿Í¼­ º¯°æ - °èÃþÀ» Ç¥ÇöÇÏ´Â Á¡¼± Ãâ·Â
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ó¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿Í¼ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		OS.SetWindowLong(tree.handle, OS.GWL_STYLE,
 				OS.GetWindowLong(tree.handle, OS.GWL_STYLE) | OS.TVS_HASLINES);
 
 		treeViewer = new TreeViewer(tree);
-		treeViewer.setContentProvider(new FileTreeContentProvider());
-		treeViewer.setLabelProvider(new FileTreeLabelProvider());
-		treeViewer.setInput(File.listRoots());
+		treeViewer.setContentProvider(new FileTreeContentProvider()); // Æ®ï¿½ï¿½ï¿½ï¿½
+																		// 'ï¿½ï¿½ï¿½ï¿½'ï¿½ï¿½
+																		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		treeViewer.setLabelProvider(new FileTreeLabelProvider()); // Æ®ï¿½ï¿½ï¿½ï¿½ 'ï¿½ï¿½ï¿½'ï¿½ï¿½
+																	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		treeViewer.setInput(File.listRoots()); // ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®.
 
 		getSite().setSelectionProvider(treeViewer);
-		treeViewer.addPostSelectionChangedListener(l);
+		getSite().getPage().addPostSelectionListener(listener);
 	}
 
 	@Override
@@ -125,7 +101,8 @@ public class BrowserView extends ViewPart {
 
 	@Override
 	public void dispose() {
+		// TODO Auto-generated method stub
 		super.dispose();
-		treeViewer.removePostSelectionChangedListener(l);
+		getSite().getPage().removeSelectionListener(listener);
 	}
 }
