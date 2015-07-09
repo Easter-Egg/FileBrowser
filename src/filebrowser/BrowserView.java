@@ -9,6 +9,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.internal.win32.OS;
 import org.eclipse.swt.widgets.Composite;
@@ -59,13 +61,21 @@ public class BrowserView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		tree = new Tree(parent, SWT.V_SCROLL | SWT.H_SCROLL);
 
-		OS.SetWindowLong(tree.handle, OS.GWL_STYLE,
-				OS.GetWindowLong(tree.handle, OS.GWL_STYLE) | OS.TVS_HASLINES);
+		int curStyle = OS.GetWindowLong(tree.handle, OS.GWL_STYLE);
+		int newStyle = curStyle | OS.TVS_HASLINES;
+		OS.SetWindowLong(tree.handle, OS.GWL_STYLE, newStyle);
 
 		treeViewer = new TreeViewer(tree);
 		treeViewer.setContentProvider(new FileTreeContentProvider());
 		treeViewer.setLabelProvider(new FileTreeLabelProvider());
 		treeViewer.setInput(File.listRoots());
+		treeViewer.setSorter(new ViewerSorter(){
+			public int compare(Viewer viewer, Object p1, Object p2){
+				File file1 = (File)p1;
+				File file2 = (File)p2;
+				return file1.compareTo(file2);
+			}
+		});
 
 		getSite().setSelectionProvider(treeViewer);
 		treeViewer.addPostSelectionChangedListener(l);
