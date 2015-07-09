@@ -1,10 +1,7 @@
 package filebrowser;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
@@ -40,7 +37,7 @@ public class MyTextEditor extends EditorPart {
 
 	}
 
-	//init이 createPartControl 보다 먼저 불림
+	//init�씠 createPartControl 蹂대떎 癒쇱� 遺덈┝
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		setInput(input);

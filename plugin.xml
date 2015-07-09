@@ -49,6 +49,19 @@
    </extension>
    <extension
          point="org.eclipse.ui.editors">
+      <editor
+            class="filebrowser.MyTextEditor"
+            default="false"
+            extensions="txt"
+            id="FileBrowser.MyTextEditor"
+            name="MyTextEditor">
+      </editor>
+      <editor
+            class="filebrowser.ImageEditor"
+            default="false"
+            id="FileBrowser.ImageEditor"
+            name="ImageEditor">
+      </editor>
    </extension>
 
 </plugin>
