@@ -1,6 +1,8 @@
 package filebrowser;
 
 
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -8,6 +10,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
 public class ImageView extends ViewPart{
@@ -20,46 +24,49 @@ public class ImageView extends ViewPart{
 	public String ImagePath = "C:\\Users\\Taewoo\\Pictures\\si.png";
 	public Canvas canvas;
 	
+	private ISelectionListener listener = new ISelectionListener() {
+		public void selectionChanged(IWorkbenchPart part, ISelection sel) {
+			if (!(sel instanceof IStructuredSelection))
+				return;
+			
+			IStructuredSelection ss = (IStructuredSelection) sel;
+			String path = ss.getFirstElement().toString();
+
+			if(path.endsWith(".jpg") || path.endsWith(".png"))
+				ImagePath = path;
+			
+			canvas.redraw();
+		}
+	};
+	
 	@Override
 	public void createPartControl(Composite parent) {
+		getSite().getPage().addSelectionListener(listener);
 		
-		canvas = new Canvas(parent, SWT.BORDER | SWT.NO_REDRAW_RESIZE);
+		canvas = new Canvas(parent, SWT.BORDER | SWT.FULL_SELECTION /*NO_REDRAW_RESIZE*/ | SWT.V_SCROLL | SWT.H_SCROLL);
 		
 		canvas.addPaintListener(new PaintListener() { 
 	        public void paintControl(PaintEvent e) { 
-	            Rectangle clientArea = canvas.getClientArea(); 
+	            
 	            Image image = new Image(parent.getDisplay(), ImagePath);
+	            Rectangle clientArea = canvas.getClientArea();
 	            e.gc.drawImage(image, clientArea.width/2-image.getBounds().width/2, clientArea.height/2-image.getBounds().height/2);
 	            }
 	    });
 		
-        /*
-		Rectangle bounds = image.getBounds();
-		GC gc = new GC(image);
-		gc.drawImage(image, 0, 0);
-		//gc.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_BLACK));
-		//gc.drawRectangle(0,0,image.getBounds().width, image.getBounds().height);
-		//canvas.print(gc);
-*/
 		setPartName("ImageViewer");
 		
-	}
-	
-	public void openImage(String path){/*
-		Display device = getViewSite().getShell().getDisplay();
-		canvas.addPaintListener(new PaintListener() { 
-	        public void paintControl(PaintEvent e) { 
-	            Rectangle clientArea = canvas.getClientArea(); 
-	            Image image = new Image(device, path);
-	            e.gc.drawImage(image, clientArea.width/2-image.getBounds().width/2, clientArea.height/2-image.getBounds().height/2);
-	            }
-	    });*/
 	}
 
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void dispose() {
+		getSite().getPage().removeSelectionListener(listener);
 	}
 
 }
