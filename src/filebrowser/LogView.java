@@ -27,7 +27,7 @@ public class LogView extends ViewPart {
 			IStructuredSelection ss = (IStructuredSelection) sel;
 			Object o = ss.getFirstElement();
 			String path = o.toString();
-			Calendar calendar = Calendar.getInstance();// 현재 시간 정보 받기
+			Calendar calendar = Calendar.getInstance();
 			date = calendar.get(Calendar.YEAR) + "-"
 					+ (calendar.get(Calendar.MONTH) + 1) + "-"
 					+ calendar.get(Calendar.DATE) + " "
@@ -49,9 +49,6 @@ public class LogView extends ViewPart {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-		
-
 	}
 
 	@Override

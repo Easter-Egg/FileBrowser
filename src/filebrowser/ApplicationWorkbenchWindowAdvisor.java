@@ -21,6 +21,6 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         configurer.setInitialSize(new Point(1280, 720)); 
         configurer.setShowCoolBar(false);
         configurer.setShowStatusLine(false);
-        configurer.setTitle("File Browser"); //$NON-NLS-1$
+        configurer.setTitle("File Browser");
     }
 }

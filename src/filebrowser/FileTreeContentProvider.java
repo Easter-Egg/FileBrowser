@@ -19,26 +19,26 @@ public class FileTreeContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		return (File[]) inputElement; 					// 파일 목록
+		return (File[]) inputElement; 					
 	}
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
 		File file = (File) parentElement;
-		return file.listFiles(); 						// 하위 파일 목록
+		return file.listFiles(); 						
 	}
 
 	@Override
 	public Object getParent(Object element) {
 		File file = (File) element;
-		return file.getParentFile(); 					// 상위 파일
+		return file.getParentFile(); 					
 	}
 
 	@Override
 	public boolean hasChildren(Object element) {
 		File file = (File) element;
 		
-		if (file.isDirectory())							// 하위 파일이 있는지 체크
+		if (file.isDirectory())							
 			return true;
 		
 		else

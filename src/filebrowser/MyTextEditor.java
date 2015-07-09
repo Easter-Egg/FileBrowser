@@ -37,7 +37,6 @@ public class MyTextEditor extends EditorPart {
 
 	}
 
-	//init�씠 createPartControl 蹂대떎 癒쇱� 遺덈┝
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		setInput(input);

@@ -19,7 +19,7 @@ public class PathView extends ViewPart {
 
 	private ISelectionListener listener = new ISelectionListener() {
 		public void selectionChanged(IWorkbenchPart part, ISelection sel) {
-			if ((!(sel instanceof IStructuredSelection)) && (part != PathView.this))
+			if (!(sel instanceof IStructuredSelection))
 				return;
 			
 			IStructuredSelection ss = (IStructuredSelection) sel;
