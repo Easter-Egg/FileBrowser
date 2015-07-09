@@ -62,18 +62,5 @@
             name="ImageEditor">
       </editor>
    </extension>
-   <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="FileBrowser.perspective">
-         <view
-               id="FileBrowser.imageView"
-               minimized="false"
-               relationship="stack"
-               relative="org.eclipse.ui.editorss"
-               visible="false">
-         </view>
-      </perspectiveExtension>
-   </extension>
 
 </plugin>

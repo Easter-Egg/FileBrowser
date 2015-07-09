@@ -70,9 +70,12 @@ public class MyTextEditor extends EditorPart {
 		URI uri = fsInput.getURI();
 		File file = new File(uri);
 		StringBuffer buffer = new StringBuffer();
+		String line = "";
 		try( BufferedReader reader = new BufferedReader(new FileReader(file)); )
 		{
-			buffer.append(reader.readLine());
+			while((line = reader.readLine()) != null)
+				buffer.append(line + "\n");
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
