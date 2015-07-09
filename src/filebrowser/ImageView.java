@@ -30,7 +30,10 @@ public class ImageView extends ViewPart{
 				return;
 			
 			IStructuredSelection ss = (IStructuredSelection) sel;
-			String path = ss.getFirstElement().toString();
+			Object firstElement = ss.getFirstElement();
+			if(firstElement == null)
+				return;
+			String path = firstElement.toString();
 
 			if(path.endsWith(".jpg") || path.endsWith(".png"))
 				ImagePath = path;
@@ -45,14 +48,13 @@ public class ImageView extends ViewPart{
 		
 		canvas = new Canvas(parent, SWT.BORDER | SWT.FULL_SELECTION /*NO_REDRAW_RESIZE*/ | SWT.V_SCROLL | SWT.H_SCROLL);
 		
-		canvas.addPaintListener(new PaintListener() { 
-	        public void paintControl(PaintEvent e) { 
-	            
-	            Image image = new Image(parent.getDisplay(), ImagePath);
-	            Rectangle clientArea = canvas.getClientArea();
-	            e.gc.drawImage(image, clientArea.width/2-image.getBounds().width/2, clientArea.height/2-image.getBounds().height/2);
-	            }
-	    });
+//		canvas.addPaintListener(new PaintListener() { 
+//	        public void paintControl(PaintEvent e) { 
+//	            Image image = new Image(parent.getDisplay(), ImagePath);
+//	            Rectangle clientArea = canvas.getClientArea();
+//	            e.gc.drawImage(image, clientArea.width/2-image.getBounds().width/2, clientArea.height/2-image.getBounds().height/2);
+//	            }
+//	    });
 		
 		setPartName("ImageViewer");
 		

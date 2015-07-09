@@ -23,7 +23,10 @@ public class PathView extends ViewPart {
 				return;
 			
 			IStructuredSelection ss = (IStructuredSelection) sel;
-			String path = ss.getFirstElement().toString();
+			Object firstElement = ss.getFirstElement();
+			if(firstElement == null)
+				return;
+			String path = firstElement.toString();
 
 			textBox.setText(path);
 		}

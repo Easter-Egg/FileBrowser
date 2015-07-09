@@ -14,9 +14,10 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            name="RCP Perspective"
             class="filebrowser.Perspective"
-            id="FileBrowser.perspective">
+            fixed="true"
+            id="FileBrowser.perspective"
+            name="RCP Perspective">
       </perspective>
    </extension>
    <extension
@@ -44,8 +45,9 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="filebrowser.TextEditor"
-            id="FileBrowser.textEditor"
+            class="filebrowser.MyTextEditor"
+            extensions="txt"
+            id="FileBrowser.MyTextEditor"
             name="Editor">
       </editor>
    </extension>

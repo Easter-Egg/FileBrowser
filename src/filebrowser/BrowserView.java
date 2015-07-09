@@ -37,23 +37,24 @@ public class BrowserView extends ViewPart {
 
 			IStructuredSelection ss = (IStructuredSelection) sel;
 
-			String path = ss.getFirstElement().toString();
-			System.out.println(path);
+			Object firstElement = ss.getFirstElement();
+			if(firstElement == null)
+				return;
+			String path = firstElement.toString();
+//			System.out.println(path);
 			File file = new File(path);
-			
-			
 
 			if (file.exists() && file.getName().endsWith(".txt")) {
 				IPath ipath = new Path(file.getAbsolutePath());
 				IFileStore fs = EFS.getLocalFileSystem().getStore(ipath);
 				FileStoreEditorInput fileStoreEditorInput = new FileStoreEditorInput(fs);
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				
+				IWorkbenchPage page = getSite().getPage();
 				
 				try {
-					page.openEditor(fileStoreEditorInput, "org.eclipse.ui.DefaultTextEditor", false);
-					
+					page.openEditor(fileStoreEditorInput, MyTextEditor.ID, false);
+					//page.openEditor(fileStoreEditorInput, "org.eclipse.ui.DefaultTextEditor", false);
 				} catch (PartInitException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -71,26 +72,26 @@ public class BrowserView extends ViewPart {
 		}
 	};
 
-	/***** Æ®¸® ±¸Á¶ Ãâ·Â ¸Þ¼Òµå *****/
+	/***** Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ *****/
 	@Override
 	public void createPartControl(Composite parent) {
-		// tree viewer »ý¼º
+		// tree viewer ï¿½ï¿½ï¿½ï¿½
 		tree = new Tree(parent, SWT.V_SCROLL | SWT.H_SCROLL);
 
-		// À©µµ¿ìÀÇ ½ºÅ¸ÀÏ ¼Ó¼º °ªÀ» ¹Þ¾Æ¿Í¼­ º¯°æ - °èÃþÀ» Ç¥ÇöÇÏ´Â Á¡¼± Ãâ·Â
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ó¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿Í¼ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		OS.SetWindowLong(tree.handle, OS.GWL_STYLE,
 				OS.GetWindowLong(tree.handle, OS.GWL_STYLE) | OS.TVS_HASLINES);
 
 		treeViewer = new TreeViewer(tree);
-		treeViewer.setContentProvider(new FileTreeContentProvider()); // Æ®¸®ÀÇ
-																		// '³»¿ë'¿¡
-																		// ´ëÇÑ Á¤º¸
-		treeViewer.setLabelProvider(new FileTreeLabelProvider()); // Æ®¸®ÀÇ '¸ð¾ç'¿¡
-																	// ´ëÇÑ Á¤º¸¸¦ Á¦°ø
-		treeViewer.setInput(File.listRoots()); // ÆÄÀÏ Æ®¸®ÀÇ ·çÆ®.
+		treeViewer.setContentProvider(new FileTreeContentProvider()); // Æ®ï¿½ï¿½ï¿½ï¿½
+																		// 'ï¿½ï¿½ï¿½ï¿½'ï¿½ï¿½
+																		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		treeViewer.setLabelProvider(new FileTreeLabelProvider()); // Æ®ï¿½ï¿½ï¿½ï¿½ 'ï¿½ï¿½ï¿½'ï¿½ï¿½
+																	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		treeViewer.setInput(File.listRoots()); // ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®.
 
 		getSite().setSelectionProvider(treeViewer);
-		getSite().getPage().addSelectionListener(listener);
+		getSite().getPage().addPostSelectionListener(listener);
 	}
 
 	@Override
