@@ -33,18 +33,6 @@
             name="Path"
             restorable="true">
       </view>
-      <view
-            class="filebrowser.ImageView"
-            id="FileBrowser.imageView"
-            name="ImageView"
-            restorable="true">
-      </view>
-      <view
-            class="filebrowser.LogView"
-            id="FileBrowser.logView"
-            name="LogView"
-            restorable="true">
-      </view>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
@@ -61,6 +49,14 @@
             id="FileBrowser.ImageEditor"
             name="ImageEditor">
       </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="filebrowser.actionSet"
+            label="FileBrowser ActionSet"
+            visible="true">
+      </actionSet>
    </extension>
 
 </plugin>

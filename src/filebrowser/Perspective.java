@@ -22,7 +22,7 @@ public class Perspective implements IPerspectiveFactory {
 	
 	public void setConsole(){
 		MessageConsole console = new MessageConsole("Console", null);
-		ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[]{console});;
+		ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[]{console});
 		MessageConsoleStream stream = console.newMessageStream();
 		PrintStream ps = new PrintStream(stream);
 		System.setOut(ps);

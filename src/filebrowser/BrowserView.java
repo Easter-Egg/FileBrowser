@@ -8,8 +8,8 @@ import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
@@ -31,20 +31,29 @@ public class BrowserView extends ViewPart {
 	private TreeViewer treeViewer;
 	private Tree tree;
 	public static final String ID = "FileBrowser.browserView";
-
-	private ISelectionChangedListener l = new ISelectionChangedListener() {
-
+	
+	private IDoubleClickListener l = new IDoubleClickListener() {
+		
 		@Override
-		public void selectionChanged(SelectionChangedEvent event) {
+		public void doubleClick(DoubleClickEvent event) {
+			// TODO Auto-generated method stub
+			
 			String path = event.getSelection().toString();
-			String loc = path.substring(1, path.length() - 1);
+			FileOpenAction foa = FileOpenAction.getInstance();
+			foa.run();
+			/*String loc = path.substring(1, path.length() - 1);
+			
 			File file = new File(loc);
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			IPath ipath = new Path(file.getAbsolutePath());
-			IFileStore fs = EFS.getLocalFileSystem().getStore(ipath);
+			IFileStore fs = EFS.getLocalFileSystem().getStore(ipath);		
 			FileStoreEditorInput fileStoreEditorInput = new FileStoreEditorInput(
 					fs);
-
+			
+			System.out.println(page.getActivePart());
+			if(file.isDirectory()){
+				treeViewer.setExpandedState(file, true);
+			}
 			try {
 				if (file.getName().endsWith(".txt")) {
 					page.openEditor(fileStoreEditorInput, MyTextEditor.ID, false);
@@ -55,8 +64,7 @@ public class BrowserView extends ViewPart {
 				}
 			} catch (PartInitException e) {
 				e.printStackTrace();
-			}
-			
+			}*/
 			Date dt = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd, hh:mm:ss:SSS a"); 
 			System.out.println(sdf.format(dt).toString() +  " " + path);
@@ -70,7 +78,7 @@ public class BrowserView extends ViewPart {
 		int curStyle = OS.GetWindowLong(tree.handle, OS.GWL_STYLE);
 		int newStyle = curStyle | OS.TVS_HASLINES;
 		OS.SetWindowLong(tree.handle, OS.GWL_STYLE, newStyle);
-
+		
 		treeViewer = new TreeViewer(tree);
 		treeViewer.setContentProvider(new FileTreeContentProvider());
 		treeViewer.setLabelProvider(new FileTreeLabelProvider());
@@ -84,7 +92,7 @@ public class BrowserView extends ViewPart {
 		});
 
 		getSite().setSelectionProvider(treeViewer);
-		treeViewer.addPostSelectionChangedListener(l);
+		treeViewer.addDoubleClickListener(l);
 	}
 
 	@Override
@@ -95,6 +103,10 @@ public class BrowserView extends ViewPart {
 	@Override
 	public void dispose() {
 		super.dispose();
-		treeViewer.removePostSelectionChangedListener(l);
+		treeViewer.removeDoubleClickListener(l);
+	}
+	
+	public TreeViewer getTreeViewer(){
+		return treeViewer;
 	}
 }
