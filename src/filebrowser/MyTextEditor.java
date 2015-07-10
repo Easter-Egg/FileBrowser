@@ -7,10 +7,14 @@ import java.io.IOException;
 import java.net.URI;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.TextPresentation;
+import org.eclipse.jface.text.TextViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -19,7 +23,8 @@ import org.eclipse.ui.part.EditorPart;
 
 public class MyTextEditor extends EditorPart {
 	public static final String ID = "FileBrowser.MyTextEditor";
-	private Text text;
+	private TextViewer textViewer;
+	private int firstLineLength = -1;
 
 	public MyTextEditor() {
 		// TODO Auto-generated constructor stub
@@ -59,10 +64,18 @@ public class MyTextEditor extends EditorPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
-		text = new Text(parent, SWT.BORDER | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL | SWT.CANCEL | SWT.MULTI);
+		textViewer = new TextViewer(parent, SWT.MULTI | SWT.V_SCROLL);
 
 		String content = readFileContents();
-		text.setText(content);
+		Document document = new Document(content);
+		textViewer.setDocument(document);
+
+		if(firstLineLength > 0){
+			TextPresentation style = new TextPresentation();
+			Color red = new Color(null, 255, 0, 0);
+			style.addStyleRange(new StyleRange(0, firstLineLength, red, null, SWT.BOLD));
+			textViewer.changeTextPresentation(style, true);
+		}
 	}
 
 	private String readFileContents() {
@@ -73,9 +86,12 @@ public class MyTextEditor extends EditorPart {
 		String line = "";
 		try( BufferedReader reader = new BufferedReader(new FileReader(file)); )
 		{
-			while((line = reader.readLine()) != null)
+			while((line = reader.readLine()) != null){
 				buffer.append(line + "\n");
-			
+				if(firstLineLength < 0)
+					firstLineLength = line.length();
+			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -84,7 +100,7 @@ public class MyTextEditor extends EditorPart {
 
 	@Override
 	public void setFocus() {
-		text.setFocus();
+		textViewer.getControl().setFocus();
 	}
 
 }

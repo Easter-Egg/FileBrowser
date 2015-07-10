@@ -14,6 +14,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.core.filesystem;bundle-version="1.4.100",
  org.eclipse.ui.editors;bundle-version="3.8.200",
- org.eclipse.ui.console;bundle-version="3.5.300"
+ org.eclipse.ui.console;bundle-version="3.5.300",
+ org.eclipse.jface.text;bundle-version="3.9.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
