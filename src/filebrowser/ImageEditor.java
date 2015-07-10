@@ -36,7 +36,7 @@ public class ImageEditor extends EditorPart {
 			throws PartInitException {
 		setSite(site);
 		setInput(input);
-		setPartName("ImageViwer : " + input.toString());
+		setPartName(input.getName());
 	}
 
 	@Override

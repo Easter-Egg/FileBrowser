@@ -1,6 +1,8 @@
 package filebrowser;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
@@ -52,6 +54,10 @@ public class BrowserView extends ViewPart {
 			} catch (PartInitException e) {
 				e.printStackTrace();
 			}
+			
+			Date dt = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd, hh:mm:ss:SSS a"); 
+			System.out.println(sdf.format(dt).toString() +  " " + path);
 		}
 	};
 
