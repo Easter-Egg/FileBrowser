@@ -38,8 +38,7 @@ public class FileOpenAction extends Action implements IWorkbenchAction {
 	}
 
 	public void run() {
-		IWorkbenchPage page = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getActivePage();
+		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		String path = page.getSelection().toString();
 		String loc = path.substring(1, path.length() - 1);
 		File file = new File(loc);
@@ -61,14 +60,12 @@ public class FileOpenAction extends Action implements IWorkbenchAction {
 				page.openEditor(fileStoreEditorInput, MyTextEditor.ID, false);
 			}
 
-			else if ((file.getName().endsWith(".jpg") || file.getName()
-					.endsWith(".png"))) {
+			else if ((file.getName().endsWith(".jpg") || file.getName().endsWith(".png"))) {
 				page.openEditor(fileStoreEditorInput, ImageEditor.ID, false);
 			}
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
-		
 		
 		if(!file.isDirectory()){
 			IActionBars bars = ((IViewSite) page.getActivePart().getSite()).getActionBars();

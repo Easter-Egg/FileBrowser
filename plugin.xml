@@ -51,12 +51,127 @@
       </editor>
    </extension>
    <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            id="filebrowser.actionSet"
-            label="FileBrowser ActionSet"
-            visible="true">
-      </actionSet>
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="filebrowser.ExitHandler"
+            id="FileBrowser.command.Exit"
+            name="Exit">
+      </command>
+      <command
+            defaultHandler="filebrowser.AboutHandler"
+            id="FileBrowser.command.About"
+            name="About">
+      </command>
+      <command
+            defaultHandler="filebrowser.ExpandHandler"
+            id="FileBrowser.Expand"
+            name="Expand">
+      </command>
+      <command
+            defaultHandler="filebrowser.CollapseHandler"
+            id="FileBrowser.CollapseAll"
+            name="CollapseAll">
+      </command>
+      <command
+            defaultHandler="filebrowser.FileOpenHandler"
+            id="FileBrowser.fileOpen"
+            name="Open File">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               id="fileMenu"
+               label="File">
+            <command
+                  commandId="FileBrowser.fileOpen"
+                  label="Open File"
+                  style="push"
+                  tooltip="open select file">
+            </command>
+            <command
+                  commandId="FileBrowser.command.Exit"
+                  label="Exit"
+                  style="push"
+                  tooltip="Exit the application">
+            </command>
+         </menu>
+         <menu
+               id="helpMenu"
+               label="Help">
+            <command
+                  commandId="FileBrowser.command.About"
+                  label="About"
+                  style="push"
+                  tooltip="Popup dialog">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="FileBrowser.toolbar">
+            <command
+                  commandId="FileBrowser.command.About"
+                  icon="icons/alt_window16.gif"
+                  label="About"
+                  style="push">
+            </command>
+         </toolbar>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:FileBrowser.browserView">
+         <command
+               commandId="FileBrowser.Expand"
+               icon="icons/expand.png"
+               label="Expand"
+               style="push"
+               tooltip="Expand file tree to level 2">
+         </command>
+         <command
+               commandId="FileBrowser.CollapseAll"
+               icon="icons/collapse.png"
+               label="Collapse All"
+               style="push"
+               tooltip="Collapse all file tree">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:FileBrowser.ImageEditor">
+         <command
+               commandId="FileBrowser.command.About"
+               icon="icons/folder.png"
+               label="About"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="FileBrowser.command.Exit"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+X">
+      </key>
+      <key
+            commandId="FileBrowser.Expand"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+1">
+      </key>
+      <scheme
+            id="fbScheme"
+            name="fbScheme">
+      </scheme>
+      <key
+            commandId="FileBrowser.CollapseAll"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+2">
+      </key>
    </extension>
 
 </plugin>

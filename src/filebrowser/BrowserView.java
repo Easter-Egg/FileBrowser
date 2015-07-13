@@ -4,10 +4,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -17,10 +13,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.internal.win32.OS;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.part.ViewPart;
 
 @SuppressWarnings("restriction")
@@ -36,35 +28,10 @@ public class BrowserView extends ViewPart {
 		
 		@Override
 		public void doubleClick(DoubleClickEvent event) {
-			// TODO Auto-generated method stub
-			
 			String path = event.getSelection().toString();
 			FileOpenAction foa = FileOpenAction.getInstance();
 			foa.run();
-			/*String loc = path.substring(1, path.length() - 1);
 			
-			File file = new File(loc);
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			IPath ipath = new Path(file.getAbsolutePath());
-			IFileStore fs = EFS.getLocalFileSystem().getStore(ipath);		
-			FileStoreEditorInput fileStoreEditorInput = new FileStoreEditorInput(
-					fs);
-			
-			System.out.println(page.getActivePart());
-			if(file.isDirectory()){
-				treeViewer.setExpandedState(file, true);
-			}
-			try {
-				if (file.getName().endsWith(".txt")) {
-					page.openEditor(fileStoreEditorInput, MyTextEditor.ID, false);
-				}
-
-				else if ((file.getName().endsWith(".jpg") || file.getName().endsWith(".png"))) {
-					page.openEditor(fileStoreEditorInput, ImageEditor.ID, false);
-				}
-			} catch (PartInitException e) {
-				e.printStackTrace();
-			}*/
 			Date dt = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd, hh:mm:ss:SSS a"); 
 			System.out.println(sdf.format(dt).toString() +  " " + path);
@@ -90,7 +57,7 @@ public class BrowserView extends ViewPart {
 				return file1.compareTo(file2);
 			}
 		});
-
+		
 		getSite().setSelectionProvider(treeViewer);
 		treeViewer.addDoubleClickListener(l);
 	}

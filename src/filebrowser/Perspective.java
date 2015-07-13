@@ -14,7 +14,7 @@ public class Perspective implements IPerspectiveFactory {
 
 	public void createInitialLayout(IPageLayout layout) {
 		layout.setFixed(true);
-		layout.addStandaloneView(BrowserView.ID, false, IPageLayout.LEFT, 0.2f, IPageLayout.ID_EDITOR_AREA);
+		layout.addStandaloneView(BrowserView.ID, true, IPageLayout.LEFT, 0.2f, IPageLayout.ID_EDITOR_AREA);
 		layout.addStandaloneView(PathView.ID, false, IPageLayout.TOP, 0.03f, BrowserView.ID);
 		setConsole();
 		layout.addStandaloneView(IConsoleConstants.ID_CONSOLE_VIEW, true, IPageLayout.BOTTOM, 0.8f,IPageLayout.ID_EDITOR_AREA);  
