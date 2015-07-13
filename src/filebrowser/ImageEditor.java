@@ -64,12 +64,11 @@ public class ImageEditor extends EditorPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		parent.setLayout(new GridLayout(1, false));
-		//ToolBar toolbar = new ToolBar(parent, SWT.NONE);
-		//toolbar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		//ToolBarManager tm = new ToolBarManager(toolbar);
-		//this.tm = tm;		
-		//((IMenuService) getEditorSite().getService(IMenuService.class)).populateContributionManager(tm, "toolbar:FileBrowser.ImageEditor");
-		
+		ToolBar toolbar = new ToolBar(parent, SWT.None);
+		toolbar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		ToolBarManager tm = new ToolBarManager(toolbar);
+		this.tm = tm;		
+		((IMenuService) getEditorSite().getService(IMenuService.class)).populateContributionManager(tm, "toolbar:FileBrowser.ImageEditor");
 
 		IEditorInput editorInput = getEditorInput();
 		FileStoreEditorInput fsInput = (FileStoreEditorInput)editorInput;
@@ -156,12 +155,11 @@ public class ImageEditor extends EditorPart {
 	
 	@Override
 	public void dispose(){
-	//	((IMenuService) getEditorSite().getService(IMenuService.class)).releaseContributions(tm);
+		((IMenuService) getEditorSite().getService(IMenuService.class)).releaseContributions(tm);
 	}
 
 	@Override
 	public void setFocus() {
 		
 	}
-
 }

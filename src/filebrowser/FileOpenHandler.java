@@ -32,8 +32,9 @@ public class FileOpenHandler extends AbstractHandler {
 		FileDialog fd = new FileDialog(page.getActivePart().getSite()
 				.getShell(), SWT.OPEN);
 		fd.setText("Open File");
+		
 		String fileName = fd.open();
-
+	
 		File file = new File(fileName);
 		IPath ipath = new Path(file.getAbsolutePath());
 		IFileStore fs = EFS.getLocalFileSystem().getStore(ipath);
