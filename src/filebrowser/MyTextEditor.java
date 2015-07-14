@@ -8,7 +8,6 @@ import java.net.URI;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.TextPresentation;
 import org.eclipse.jface.text.TextViewer;
@@ -16,17 +15,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.FileStoreEditorInput;
-import org.eclipse.ui.menus.IMenuService;
 import org.eclipse.ui.part.EditorPart;
-import org.eclipse.swt.custom.StyledText;
 
 public class MyTextEditor extends EditorPart implements IAdaptable {
 	public static final String ID = "FileBrowser.MyTextEditor";
@@ -81,18 +75,9 @@ public class MyTextEditor extends EditorPart implements IAdaptable {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		GridLayout layout = new GridLayout(1, false);
-		parent.setLayout(layout);
+		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
+		textViewer = new TextViewer(parent, SWT.MULTI | SWT.V_SCROLL);
 
-		ToolBar toolbar = new ToolBar(parent, SWT.FLAT | SWT.HORIZONTAL);
-		toolbar.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		ToolBarManager toolbarMan = new ToolBarManager(toolbar);
-		IMenuService menuService = (IMenuService) getSite().getService(IMenuService.class);
-		menuService.populateContributionManager(toolbarMan, "toolbar:FileBrowser.MyTextEditor");
-
-		textViewer = new TextViewer(parent, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.None);
-		textViewer.getTextWidget().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		StyledText styledText = textViewer.getTextWidget();
 		String content = readFileContents();
 		Document document = new Document(content);
 		textViewer.setDocument(document);
