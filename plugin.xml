@@ -191,10 +191,6 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+1">
       </key>
-      <scheme
-            id="fbScheme"
-            name="fbScheme">
-      </scheme>
       <key
             commandId="FileBrowser.CollapseAll"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
