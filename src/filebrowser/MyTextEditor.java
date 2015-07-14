@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.TextPresentation;
@@ -21,10 +22,20 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.part.EditorPart;
 
-public class MyTextEditor extends EditorPart {
+public class MyTextEditor extends EditorPart implements IAdaptable {
 	public static final String ID = "FileBrowser.MyTextEditor";
 	private TextViewer textViewer;
 	private int firstLineLength = -1;
+/*
+	@Override
+	public Object getAdapter(Class required) {
+		{
+			if (required.equals(OutlineView.class)) {
+				return new OutlineView();
+			}
+		}
+		return null;
+	}*/
 
 	public MyTextEditor() {
 		// TODO Auto-generated constructor stub
@@ -43,7 +54,8 @@ public class MyTextEditor extends EditorPart {
 	}
 
 	@Override
-	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+	public void init(IEditorSite site, IEditorInput input)
+			throws PartInitException {
 		setInput(input);
 		setSite(site);
 		setPartName(input.getName());
@@ -70,25 +82,24 @@ public class MyTextEditor extends EditorPart {
 		Document document = new Document(content);
 		textViewer.setDocument(document);
 
-		if(firstLineLength > 0){
+		if (firstLineLength > 0) {
 			TextPresentation style = new TextPresentation();
 			Color red = new Color(null, 255, 0, 0);
-			style.addStyleRange(new StyleRange(0, firstLineLength, red, null, SWT.BOLD));
+			style.addStyleRange(new StyleRange(0, firstLineLength, red, null,SWT.BOLD));
 			textViewer.changeTextPresentation(style, true);
 		}
 	}
 
 	private String readFileContents() {
-		FileStoreEditorInput fsInput = (FileStoreEditorInput)getEditorInput();
+		FileStoreEditorInput fsInput = (FileStoreEditorInput) getEditorInput();
 		URI uri = fsInput.getURI();
 		File file = new File(uri);
 		StringBuffer buffer = new StringBuffer();
 		String line = "";
-		try( BufferedReader reader = new BufferedReader(new FileReader(file)); )
-		{
-			while((line = reader.readLine()) != null){
+		try (BufferedReader reader = new BufferedReader(new FileReader(file));) {
+			while ((line = reader.readLine()) != null) {
 				buffer.append(line + "\n");
-				if(firstLineLength < 0)
+				if (firstLineLength < 0)
 					firstLineLength = line.length();
 			}
 
@@ -102,5 +113,4 @@ public class MyTextEditor extends EditorPart {
 	public void setFocus() {
 		textViewer.getControl().setFocus();
 	}
-
 }

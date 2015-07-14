@@ -33,6 +33,12 @@
             name="Path"
             restorable="true">
       </view>
+      <view
+            class="filebrowser.OutlineView"
+            id="FileBrowser.outLineView"
+            name="Outline"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
@@ -76,6 +82,11 @@
             defaultHandler="filebrowser.FileOpenHandler"
             id="FileBrowser.fileOpen"
             name="Open File">
+      </command>
+      <command
+            defaultHandler="filebrowser.FileInfoHandler"
+            id="FileBrowser.command.FileInfo"
+            name="File Info">
       </command>
    </extension>
    <extension
@@ -148,6 +159,13 @@
                icon="icons/folder.png"
                label="About"
                style="push">
+         </command>
+         <command
+               commandId="FileBrowser.command.FileInfo"
+               icon="icons/zoomin.png"
+               label="File Info"
+               style="push"
+               tooltip="Check file info">
          </command>
       </menuContribution>
    </extension>

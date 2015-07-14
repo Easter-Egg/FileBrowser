@@ -27,10 +27,12 @@ import org.eclipse.ui.part.EditorPart;
 
 public class ImageEditor extends EditorPart {
 	public static final String ID = "FileBrowser.ImageEditor";
-	public ScrollBar hBar = null;
-	public ScrollBar vBar = null;
-	public Point origin = new Point (0, 0);
-	public ToolBarManager tm;
+	private ScrollBar hBar = null;
+	private ScrollBar vBar = null;
+	private Point origin = new Point (0, 0);
+	private ToolBarManager tm;
+	private Canvas canvas;
+	private Image image;
 	
 	public ImageEditor() {
 	}
@@ -74,66 +76,66 @@ public class ImageEditor extends EditorPart {
 		FileStoreEditorInput fsInput = (FileStoreEditorInput)editorInput;
 		URI uri = fsInput.getURI();
 		File file = new File(uri);
-		Image image = new Image(parent.getDisplay(), file.getAbsolutePath());
-		Canvas canvas = new Canvas(parent, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.None);
+		image = new Image(parent.getDisplay(), file.getAbsolutePath());
+		canvas = new Canvas(parent, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.None);
 		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
 		hBar = canvas.getHorizontalBar();
 		
 		vBar = canvas.getVerticalBar();
 		
-		canvas.addListener (SWT.Resize,  new Listener() {
+		canvas.addListener(SWT.Resize,  new Listener(){
 			@Override
-			public void handleEvent(Event e) {
+			public void handleEvent(Event e){
 				Rectangle rect = image.getBounds();
 				Rectangle client = canvas.getClientArea();
 				
-				hBar.setMaximum (rect.width);
-				vBar.setMaximum (rect.height);
-				hBar.setThumb (Math.min(rect.width, client.width));
-				vBar.setThumb (Math.min(rect.height, client.height));
+				hBar.setMaximum(rect.width);
+				vBar.setMaximum(rect.height);
+				hBar.setThumb(Math.min(rect.width, client.width));
+				vBar.setThumb(Math.min(rect.height, client.height));
 				
 				int hPage = rect.width - client.width;
 				int vPage = rect.height - client.height;
 				int hSel = hBar.getSelection();
 				int vSel = vBar.getSelection();
 				
-				if (hSel >= hPage){
+				if(hSel >= hPage){
 					if (hPage <= 0) 
 						hSel = 0;
 					origin.x = -hSel;
 				}
 				
-				if (vSel >= vPage){
+				if(vSel >= vPage){
 					if (vPage <= 0) 
 						vSel = 0;
 					origin.y = -vSel;
 				}
 				
-				canvas.redraw ();
+				canvas.redraw();
 			}
 		});
 		
-		canvas.addListener (SWT.Paint, new Listener () {
+		canvas.addListener (SWT.Paint, new Listener(){
 			@Override
-			public void handleEvent (Event e) {
+			public void handleEvent(Event e){
 				GC gc = e.gc;
 				gc.drawImage (image, origin.x, origin.y);
-				Rectangle rect = image.getBounds ();
-				Rectangle client = canvas.getClientArea ();
+				Rectangle rect = image.getBounds();
+				Rectangle client = canvas.getClientArea();
 				int marginWidth = client.width - rect.width;
-				if (marginWidth > 0) {
-					gc.fillRectangle (rect.width, 0, marginWidth, client.height);
+				if(marginWidth > 0){
+					gc.fillRectangle(rect.width, 0, marginWidth, client.height);
 				}
 				int marginHeight = client.height - rect.height;
-				if (marginHeight > 0) {
-					gc.fillRectangle (0, rect.height, client.width, marginHeight);
+				if(marginHeight > 0){
+					gc.fillRectangle(0, rect.height, client.width, marginHeight);
 				}
 			}
 		});
 		hBar.addListener(SWT.Selection, new Listener(){
 			@Override
-			public void handleEvent(Event event) {
+			public void handleEvent(Event event){
 				int hSel = hBar.getSelection();
 				int destX = -hSel - origin.x;
 				Rectangle rect = image.getBounds();
@@ -143,7 +145,7 @@ public class ImageEditor extends EditorPart {
 		});
 		vBar.addListener(SWT.Selection, new Listener(){
 			@Override
-			public void handleEvent(Event event) {
+			public void handleEvent(Event event){
 				int vSel = vBar.getSelection();
 				int destY = -vSel - origin.y;
 				Rectangle rect = image.getBounds();
@@ -156,10 +158,20 @@ public class ImageEditor extends EditorPart {
 	@Override
 	public void dispose(){
 		((IMenuService) getEditorSite().getService(IMenuService.class)).releaseContributions(tm);
+		canvas.dispose();
+		image.dispose();
 	}
 
 	@Override
 	public void setFocus() {
 		
+	}
+	
+	public Canvas getCanvas(){
+		return canvas;
+	}
+	
+	public Image getImage(){
+		return image;
 	}
 }
