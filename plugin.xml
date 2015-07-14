@@ -168,6 +168,16 @@
                tooltip="Check file info">
          </command>
       </menuContribution>
+      <menuContribution
+            allPopups="true"
+            locationURI="toolbar:FileBrowser.MyTextEditor">
+         <command
+               commandId="FileBrowser.command.About"
+               icon="icons/folder.png"
+               label="About"
+               style="push">
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
