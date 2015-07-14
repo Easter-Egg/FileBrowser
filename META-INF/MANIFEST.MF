@@ -21,3 +21,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.browser;bundle-version="3.4.300"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .,
+ swing2swt.jar
