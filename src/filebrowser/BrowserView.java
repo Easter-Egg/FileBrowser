@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -12,6 +13,7 @@ import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.internal.win32.OS;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
 
@@ -57,6 +59,11 @@ public class BrowserView extends ViewPart {
 				return file1.compareTo(file2);
 			}
 		});
+		
+		MenuManager menuManager = new MenuManager();
+		Menu menu = menuManager.createContextMenu(treeViewer.getTree());
+		treeViewer.getTree().setMenu(menu);
+		getSite().registerContextMenu(menuManager, treeViewer);
 		
 		getSite().setSelectionProvider(treeViewer);
 		treeViewer.addDoubleClickListener(l);

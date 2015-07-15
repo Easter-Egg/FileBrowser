@@ -46,7 +46,7 @@ public class FileOpenHandler extends AbstractHandler {
 			}
 
 			if ((file.getName().endsWith(".jpg") || file.getName().endsWith(".png"))) {
-				page.openEditor(fileStoreEditorInput, ImageEditor.ID, false);
+				page.openEditor(fileStoreEditorInput, ImageEditor.ID, false).getAdapter(OutlineView.class);
 			}
 		} catch (PartInitException e) {
 			e.printStackTrace();

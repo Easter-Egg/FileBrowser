@@ -3,6 +3,7 @@ import java.io.File;
 import java.net.URI;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
@@ -15,6 +16,7 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.IEditorInput;
@@ -24,8 +26,7 @@ import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.menus.IMenuService;
 import org.eclipse.ui.part.EditorPart;
 
-
-public class ImageEditor extends EditorPart {
+public class ImageEditor extends EditorPart{
 	public static final String ID = "FileBrowser.ImageEditor";
 	public ScrollBar hBar = null;
 	public ScrollBar vBar = null;
@@ -153,6 +154,11 @@ public class ImageEditor extends EditorPart {
 				origin.y = -vSel;
 			}
 		});
+		
+		MenuManager menuManager = new MenuManager();
+		Menu menu = menuManager.createContextMenu(canvas);
+		canvas.setMenu(menu);
+		getSite().registerContextMenu(menuManager, getSite().getSelectionProvider());
 	}
 	
 	@Override
