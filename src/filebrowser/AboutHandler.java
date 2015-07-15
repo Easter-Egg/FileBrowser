@@ -15,7 +15,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
 public class AboutHandler extends AbstractHandler{
-	
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		Bundle bundle = FrameworkUtil.getBundle(FileTreeLabelProvider.class);
@@ -26,4 +26,5 @@ public class AboutHandler extends AbstractHandler{
 		MessageDialog.openInformation(HandlerUtil.getActiveWorkbenchWindow(event).getShell(), "About File Browser", "Product Name : File Browser\nVersion : 1.0.0");
 		return null;
 	}
+
 }
