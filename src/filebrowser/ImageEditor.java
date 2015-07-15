@@ -31,6 +31,8 @@ public class ImageEditor extends EditorPart {
 	public ScrollBar vBar = null;
 	public Point origin = new Point (0, 0);
 	public ToolBarManager tm;
+	public Image image;
+	public Canvas canvas;
 	
 	public ImageEditor() {
 	}
@@ -74,8 +76,8 @@ public class ImageEditor extends EditorPart {
 		FileStoreEditorInput fsInput = (FileStoreEditorInput)editorInput;
 		URI uri = fsInput.getURI();
 		File file = new File(uri);
-		Image image = new Image(parent.getDisplay(), file.getAbsolutePath());
-		Canvas canvas = new Canvas(parent, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.None);
+		image = new Image(parent.getDisplay(), file.getAbsolutePath());
+		canvas = new Canvas(parent, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.None);
 		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
 		hBar = canvas.getHorizontalBar();
@@ -161,5 +163,13 @@ public class ImageEditor extends EditorPart {
 	@Override
 	public void setFocus() {
 		
+	}
+	
+	public Image getImage(){
+		return image;
+	}
+	
+	public Canvas getCanvas(){
+		return canvas;
 	}
 }

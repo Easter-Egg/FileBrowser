@@ -77,6 +77,11 @@
             id="FileBrowser.fileOpen"
             name="Open File">
       </command>
+      <command
+            defaultHandler="filebrowser.FileInfoHandler"
+            id="FileBrowser.command.FileInfo"
+            name="File Info">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -149,6 +154,22 @@
                label="About"
                style="push">
          </command>
+         <command
+               commandId="FileBrowser.command.FileInfo"
+               icon="icons/zoomin.png"
+               label="File Info"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:FileBrowser.MyTextEditor">
+         <command
+               commandId="FileBrowser.command.About"
+               icon="icons/folder.png"
+               label="About"
+               style="push">
+         </command>
       </menuContribution>
    </extension>
    <extension
@@ -163,10 +184,6 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+1">
       </key>
-      <scheme
-            id="fbScheme"
-            name="fbScheme">
-      </scheme>
       <key
             commandId="FileBrowser.CollapseAll"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
