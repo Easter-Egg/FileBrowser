@@ -26,6 +26,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 	@Override
 	protected void fillStatusLine(IStatusLineManager statusLine) {
+		
+		//selection listener¸¦ ±¸Çö
 		statusItem = new StatusLineContributionItem("Size");
 		statusItem.setText("File size");
 		statusLine.add(statusItem);

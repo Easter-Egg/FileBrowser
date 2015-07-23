@@ -1,8 +1,13 @@
-package filebrowser;
+package editors;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.core.runtime.content.IContentDescriber;
+import org.eclipse.core.runtime.content.IContentDescription;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.swt.SWT;
@@ -26,7 +31,7 @@ import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.menus.IMenuService;
 import org.eclipse.ui.part.EditorPart;
 
-public class ImageEditor extends EditorPart{
+public class ImageEditor extends EditorPart implements IContentDescriber {
 	public static final String ID = "FileBrowser.ImageEditor";
 	public ScrollBar hBar = null;
 	public ScrollBar vBar = null;
@@ -85,7 +90,7 @@ public class ImageEditor extends EditorPart{
 		
 		vBar = canvas.getVerticalBar();
 		
-		canvas.addListener (SWT.Resize,  new Listener() {
+		canvas.addListener (SWT.Resize, new Listener() {
 			@Override
 			public void handleEvent(Event e) {
 				Rectangle rect = image.getBounds();
@@ -177,5 +182,17 @@ public class ImageEditor extends EditorPart{
 	
 	public Canvas getCanvas(){
 		return canvas;
+	}
+
+	@Override
+	public int describe(InputStream contents, IContentDescription description) throws IOException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public QualifiedName[] getSupportedOptions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

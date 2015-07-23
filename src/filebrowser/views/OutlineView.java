@@ -1,4 +1,4 @@
-package filebrowser;
+package filebrowser.views;
 
 import java.io.File;
 
@@ -11,6 +11,9 @@ import org.eclipse.ui.part.MessagePage;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.PageBookView;
 
+import editors.ImageEditor;
+import editors.MyTextEditor;
+
 public class OutlineView extends PageBookView {
 	public OutlineView() {
 	}
@@ -20,7 +23,6 @@ public class OutlineView extends PageBookView {
 
 	@Override
 	protected IPage createDefaultPage(PageBook book) {
-		// TODO Auto-generated method stub
 		MessagePage messagePage = new MessagePage();
 		initPage(messagePage);
 		messagePage.setMessage("");
@@ -45,7 +47,7 @@ public class OutlineView extends PageBookView {
 
 	@Override
 	protected void doDestroyPage(IWorkbenchPart part, PageRec pageRecord) {
-		// TODO Auto-generated method stub
+		System.out.println("hello");
 		pageRecord.page.dispose();
 	}
 
@@ -56,8 +58,6 @@ public class OutlineView extends PageBookView {
 
 	@Override
 	protected boolean isImportant(IWorkbenchPart part) {
-		// TODO Auto-generated method stub
-		
 		return (part instanceof MyTextEditor || part instanceof ImageEditor);
 	}
 	

@@ -22,19 +22,19 @@
          point="org.eclipse.ui.views">
       <view
             allowMultiple="true"
-            class="filebrowser.BrowserView"
+            class="filebrowser.views.BrowserView"
             id="FileBrowser.browserView"
             name="Browser"
             restorable="true">
       </view>
       <view
-            class="filebrowser.PathView"
+            class="filebrowser.views.PathView"
             id="FileBrowser.pathView"
             name="Path"
             restorable="true">
       </view>
       <view
-            class="filebrowser.OutlineView"
+            class="filebrowser.views.OutlineView"
             id="FileBrowser.outlineView"
             name="Outline"
             restorable="true">
@@ -43,23 +43,32 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="filebrowser.MyTextEditor"
+            class="editors.MyTextEditor"
             default="false"
             extensions="txt"
             id="FileBrowser.MyTextEditor"
             name="MyTextEditor">
+         <contentTypeBinding
+               contentTypeId="FileBrowser.content-type.Text">
+         </contentTypeBinding>
       </editor>
       <editor
-            class="filebrowser.ImageEditor"
+            class="editors.ImageEditor"
             default="false"
             id="FileBrowser.ImageEditor"
             name="ImageEditor">
+         <contentTypeBinding
+               contentTypeId="FileBrowser.content-type.Png">
+         </contentTypeBinding>
+         <contentTypeBinding
+               contentTypeId="FileBrowser.content-type.Jpg">
+         </contentTypeBinding>
       </editor>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="filebrowser.ExitHandler"
+            defaultHandler="handlers.ExitHandler"
             id="FileBrowser.command.Exit"
             name="Exit">
       </command>
@@ -68,22 +77,22 @@
             name="About">
       </command>
       <command
-            defaultHandler="filebrowser.ExpandHandler"
+            defaultHandler="handlers.ExpandHandler"
             id="FileBrowser.Expand"
             name="Expand">
       </command>
       <command
-            defaultHandler="filebrowser.CollapseHandler"
+            defaultHandler="handlers.CollapseHandler"
             id="FileBrowser.CollapseAll"
             name="CollapseAll">
       </command>
       <command
-            defaultHandler="filebrowser.FileOpenHandler"
+            defaultHandler="handlers.FileOpenHandler"
             id="FileBrowser.fileOpen"
             name="Open File">
       </command>
       <command
-            defaultHandler="filebrowser.FileInfoHandler"
+            defaultHandler="handlers.FileInfoHandler"
             id="FileBrowser.command.FileInfo"
             name="File Info">
       </command>
@@ -226,17 +235,43 @@
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="filebrowser.AboutHandler"
+            class="handlers.AboutHandler"
             commandId="FileBrowser.command.About">
          <enabledWhen>
             <with
                   variable="activePart">
                <instanceof
-                     value="filebrowser.BrowserView">
+                     value="filebrowser.views.BrowserView">
                </instanceof>
             </with>
          </enabledWhen> 
       </handler>
+   </extension>
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            base-type="org.eclipse.core.runtime.text"
+            default-charset="UTF-8"
+            describer="editors.MyTextEditor"
+            file-extensions="txt"
+            id="FileBrowser.content-type.Text"
+            name="TXT"
+            priority="high">
+      </content-type>
+      <content-type
+            describer="editors.ImageEditor"
+            file-extensions="png"
+            id="FileBrowser.content-type.Png"
+            name="PNG"
+            priority="normal">
+      </content-type>
+      <content-type
+            describer="editors.ImageEditor"
+            file-extensions="jpg"
+            id="FileBrowser.content-type.Jpg"
+            name="JPG"
+            priority="normal">
+      </content-type>
    </extension>
 
 </plugin>

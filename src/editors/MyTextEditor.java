@@ -1,12 +1,16 @@
-package filebrowser;
+package editors;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.core.runtime.content.IContentDescriber;
+import org.eclipse.core.runtime.content.IContentDescription;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.TextPresentation;
@@ -26,7 +30,7 @@ import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.menus.IMenuService;
 import org.eclipse.ui.part.EditorPart;
 
-public class MyTextEditor extends EditorPart {
+public class MyTextEditor extends EditorPart implements IContentDescriber{
 	public static final String ID = "FileBrowser.MyTextEditor";
 	private TextViewer textViewer;
 	private int firstLineLength = -1;
@@ -95,7 +99,7 @@ public class MyTextEditor extends EditorPart {
 	}
 
 	private String readFileContents() {
-		FileStoreEditorInput fsInput = (FileStoreEditorInput)getEditorInput();
+		FileStoreEditorInput fsInput = (FileStoreEditorInput) getEditorInput();
 		URI uri = fsInput.getURI();
 		File file = new File(uri);
 		StringBuffer buffer = new StringBuffer();
@@ -118,5 +122,16 @@ public class MyTextEditor extends EditorPart {
 	public void setFocus() {
 		textViewer.getControl().setFocus();
 	}
+	
+	@Override
+	public QualifiedName[] getSupportedOptions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public int describe(InputStream contents, IContentDescription description) throws IOException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

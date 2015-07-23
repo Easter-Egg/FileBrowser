@@ -1,4 +1,4 @@
-package filebrowser;
+package handlers;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -6,6 +6,8 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
+
+import filebrowser.views.BrowserView;
 
 public class ExpandHandler extends AbstractHandler {
 

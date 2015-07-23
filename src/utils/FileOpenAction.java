@@ -1,4 +1,4 @@
-package filebrowser;
+package utils;
 
 import java.io.File;
 
@@ -16,6 +16,10 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.ide.FileStoreEditorInput;
+
+import editors.ImageEditor;
+import editors.MyTextEditor;
+import filebrowser.views.BrowserView;
 
 public class FileOpenAction extends Action implements IWorkbenchAction {
 
@@ -46,7 +50,7 @@ public class FileOpenAction extends Action implements IWorkbenchAction {
 		IFileStore fs = EFS.getLocalFileSystem().getStore(ipath);
 		FileStoreEditorInput fileStoreEditorInput = new FileStoreEditorInput(fs);
 		TreeViewer tv = ((BrowserView) page.getActivePart()).getTreeViewer(); 
-
+		
 		try {
 			if (file.isDirectory()) {
 				if(tv.getExpandedState(file))

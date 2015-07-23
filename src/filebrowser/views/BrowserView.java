@@ -1,4 +1,4 @@
-package filebrowser;
+package filebrowser.views;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -17,16 +17,22 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
 
+import utils.FileOpenAction;
+import utils.FileTreeContentProvider;
+import utils.FileTreeLabelProvider;
+
 @SuppressWarnings("restriction")
 public class BrowserView extends ViewPart {
+	
 	public BrowserView() {
+		
 	}
 
 	private TreeViewer treeViewer;
 	private Tree tree;
 	public static final String ID = "FileBrowser.browserView";
 	
-	private IDoubleClickListener l = new IDoubleClickListener() {
+	private IDoubleClickListener doubleClickListener = new IDoubleClickListener() {
 		
 		@Override
 		public void doubleClick(DoubleClickEvent event) {
@@ -66,7 +72,7 @@ public class BrowserView extends ViewPart {
 		getSite().registerContextMenu(menuManager, treeViewer);
 		
 		getSite().setSelectionProvider(treeViewer);
-		treeViewer.addDoubleClickListener(l);
+		treeViewer.addDoubleClickListener(doubleClickListener);
 	}
 
 	@Override
@@ -77,7 +83,7 @@ public class BrowserView extends ViewPart {
 	@Override
 	public void dispose() {
 		super.dispose();
-		treeViewer.removeDoubleClickListener(l);
+		treeViewer.removeDoubleClickListener(doubleClickListener);
 	}
 	
 	public TreeViewer getTreeViewer(){
